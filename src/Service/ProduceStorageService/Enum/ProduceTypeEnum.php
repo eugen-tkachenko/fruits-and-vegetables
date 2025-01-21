@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\ProduceStorageService\Enum;
 
 /**
  * @TODO move to a standalone Type
- * @method static from
- * @method static tryFrom
  */
 enum ProduceTypeEnum: string
 {
+    use ValuesEnumTrait;
+
     case FRUIT      = 'fruit';
     case VEGETABLE  = 'vegetable';
 
-    public static function values(): array
-    {
-        return array_map(fn ($case) => $case->value, self::cases());
-    }
 }

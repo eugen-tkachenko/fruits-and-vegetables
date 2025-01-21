@@ -21,20 +21,21 @@ class ProduceRepository extends ServiceEntityRepository
         parent::__construct($registry, Produce::class);
     }
 
-//    /**
-//     * @return Produce[] Returns an array of Produce objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @param $externalId
+     * @return Produce|null Returns an array of Produce objects
+     */
+    public function findByExternalId($externalId): ?Produce
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.externalId = :externalId')
+            ->setParameter('externalId', $externalId)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Produce
 //    {

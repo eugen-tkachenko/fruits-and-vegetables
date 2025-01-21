@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\DTO\ProduceDTO;
 use App\Repository\ProduceRepository;
+use App\Service\ProduceStorageService\Enum\ProduceTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,12 +16,14 @@ class Produce
     #[ORM\Column]
     private int $id;
 
+    # id should not be used in API calls,
+    # externalId is proposed to be used instead
+    # like a slug or a simplified uuid
     #[ORM\Column]
     #[Assert\Positive]
     private int $externalId;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
     private string $name;
 
@@ -34,9 +38,10 @@ class Produce
     #[Assert\Type(type: ProduceTypeEnum::class)]
     private ProduceTypeEnum $type;
 
+    # Quantity in grams
+    # The Unit column therefore rudimentary since everything is always in grams
     #[ORM\Column]
     #[Assert\Positive]
-    # Quantity in grams
     private int $quantity;
 
     public function getId(): ?int
@@ -105,5 +110,15 @@ class Produce
         $this->quantity = $quantity;
 
         return $this;
+    }
+
+    public static function createFromDTO(ProduceDTO $produceDTO): static
+    {
+        return (new static())
+            ->setExternalId($produceDTO->getId())
+            ->setName($produceDTO->getName())
+            ->setType($produceDTO->getType())
+            ->setQuantity($produceDTO->getQuantity())
+        ;
     }
 }
