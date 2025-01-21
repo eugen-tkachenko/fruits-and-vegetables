@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Service;
 
 /**
  * @TODO move to a standalone Type
